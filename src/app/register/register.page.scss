@@ -1,0 +1,49 @@
+@font-face {
+  font-family: 'SourceSansPro';    //This is what we are going to call
+  src: url('/assets/fonts/SourceSansPro-Regular.otf');
+}
+
+* {
+  font-family: SourceSansPro, serif !important;
+}
+
+.form-group {
+  position: relative;
+  margin: 20px 0 40px;
+}
+
+.form-group input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid gray;
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.form-group input:focus,
+.form-group input:not(:placeholder-shown){
+  outline: none;
+  border-bottom: 1px solid #0038AE;
+}
+
+.form-group input::placeholder {
+  color: transparent;
+}
+
+.form-group label {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  color: gray;
+  -moz-transition: .2s ease all;
+  -webkit-transition: .2s ease all;
+  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  transform: translateY(-25px);
+  color: #0038AE;
+  font-size: 12px;
+}
