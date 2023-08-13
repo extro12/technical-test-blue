@@ -1,37 +1,43 @@
-<div class="h-screen bg-[#e1ebf4]">
-  <header class="bg-white w-full py-4 px-10 shadow-xl flex items-center space-x-3">
-    <img class="w-11" src="/assets/img/logo.png" alt="Logo">
-    <label class="text-[#0038AE] text-2xl font-bold">Prueba <span class="text-[#008AD8]">Técnica</span></label>
-  </header>
-  <div class="container mx-auto">
-    <h1 class="text-3xl text-[#2A609F] p-5 font-bold">Formulario de registro</h1>
-    <div class="w-3/4 sm:w-1/2 drop-shadow-2xl mx-auto rounded p-5 my-3 bg-white">
-      <h1 class="text-[#2A51A3] font-bold text-2xl text-center">Registrarse</h1>
-      <p class="text-base text-gray-600 text-center">Crea tu cuenta fácilmente ingresando los siguiente datos</p>
+<div class="border-2 h-full flex items-center justify-center mx-auto p-2 sm:p-0">
+  <div class="w-full md:w-3/4 lg:w-2/5 drop-shadow-2xl mx-auto rounded px-5 py-10 my-3 bg-white">
+    <h1 class="text-[#2A51A3] font-bold text-2xl text-center">Registrarse</h1>
+    <p class="text-base text-gray-600 text-center">Crea tu cuenta fácilmente ingresando los siguiente datos</p>
 
-      <form class="mt-5 sm:w-5/6 mx-auto">
-        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 my-5">
-          <div class="form-group">
-            <input class="form-control" placeholder="Ingresar dato" type="text" required>
-            <label class="text-left pointer-events-none">Nombre</label>
-          </div>
-
-          <div class="form-group">
-            <input class="form-control" placeholder="Ingresar dato" type="text" required>
-            <label class="text-left pointer-events-none">Apellido</label>
-          </div>
+    <form [formGroup]="form" (ngSubmit)="submitForm()" class="mt-5 sm:w-5/6 mx-auto">
+      <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 my-8">
+        <div class="form-group">
+          <input [class]="nameValidation('name') ? 'error-input' : ''" class="form-control" formControlName="name" placeholder="Ingresar dato" type="text" required>
+          <label class="text-left pointer-events-none">Nombre</label>
+          <small *ngIf="nameValidation('name')" class="text-red-600">El mínimo de letras es de 3</small>
         </div>
 
-        <div class="form-group my-5">
-          <input class="form-control" placeholder="Ingresar dato" type="text" required>
-          <label class="text-left pointer-events-none">Dirección</label>
+        <div class="form-group">
+          <input [class]="nameValidation('lastname') ? 'error-input' : ''" class="form-control" formControlName="lastname" placeholder="Ingresar dato" type="text" required>
+          <label class="text-left pointer-events-none">Apellido</label>
+          <small *ngIf="nameValidation('lastname')" class="text-red-600">El mínimo de letras es de 3</small>
+        </div>
+      </div>
+
+      <div class="form-group my-8">
+        <input class="form-control" formControlName="address" placeholder="Ingresar dato" type="text">
+        <label class="text-left pointer-events-none">Dirección</label>
+      </div>
+
+      <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 my-8">
+        <div class="form-group">
+          <input [class]="nameValidation('email') ? 'error-input' : ''" class="form-control" formControlName="email" placeholder="Ingresar dato" type="text" required>
+          <label class="text-left pointer-events-none">Correo electrónico</label>
+          <small *ngIf="nameValidation('email')" class="text-red-600">Formato inválido. (ejemplo@correo.com)</small>
         </div>
 
-        <div class="form-group my-5">
-          <input class="form-control" mask='(000) 000-0000' placeholder="Ingresar dato" type="text" required>
+        <div class="form-group">
+          <input [class]="nameValidation('age') ? 'error-input' : ''" class="form-control" formControlName="age" min="1" max="100" placeholder="Ingresar dato" type="number" required>
           <label class="text-left pointer-events-none">Edad</label>
+          <small *ngIf="nameValidation('age')" class="text-red-600">Solo mayores de 18 años</small>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <button type="submit" class="rounded w-full bg-[#2A51A3] text-white p-2 mt-5">Enviar</button>
+    </form>
   </div>
 </div>

@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.error-input {
+  border-bottom: 1px solid red !important;
+}
+
 .form-group input {
   background: transparent;
   border: 0;
