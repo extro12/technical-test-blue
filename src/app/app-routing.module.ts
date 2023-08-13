@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterPage } from './register/register.page';
+import { ListPage } from './list/list.page';
 
 const routes: Routes = [
   { // iremos a nuestra vista de register
@@ -12,6 +13,11 @@ const routes: Routes = [
     path: 'register',
     component: RegisterPage,
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'registered-persons',
+    component: ListPage,
+    loadChildren: () => import('./list/list.module').then( m => m.ListPageModule)
   }
 ];
 

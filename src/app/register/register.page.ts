@@ -1,6 +1,10 @@
 import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {Person} from "../models/person";
+import {PersonService} from "../services/PersonService/PersonService.service";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,16 +13,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 
 export class RegisterPage implements AfterContentInit {
-
+  loadingSendData: boolean = false;
   form!: FormGroup;
-  messageValidation = {
-    name: 'El nombre es requerido',
-    lastname: 'El apellido es requerido',
-    email: 'El email es requerido',
-    age: 'La edad es requerida',
-  }
 
-  constructor(private titleService: Title, private fb:FormBuilder) {
+  constructor(private titleService: Title, private fb:FormBuilder, private snackbar: MatSnackBar, private person: PersonService, private router: Router) {
     this.createForm();
   }
 
@@ -40,12 +38,45 @@ export class RegisterPage implements AfterContentInit {
   }
 
   submitForm() {
-    console.log(this.form);
+    this.loadingSendData = true;
     if (this.form.invalid) {
+      this.loadingSendData = false;
       return Object.values(this.form.controls).forEach(control => {
         control.markAsTouched();
       });
     }
+
+    const person: Person = {
+      name: this.form.get('name')?.value,
+      last_name: this.form.get('lastname')?.value,
+      address: this.form.get('address')?.value,
+      email: this.form.get('email')?.value,
+      age: this.form.get('age')?.value,
+    }
+
+    // consumimos EP de registro
+    this.person.registerPerson(person).subscribe((response: any) => {
+      this.snackbar.open('Registro exitoso', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: "bg-success-custom"
+      });
+      this.resetForm();
+      // nos redirigimos a la lista de personas registradas luego de 3 segundos
+      setTimeout(() => {
+          this.router.navigate(['/registered-persons']);
+      }, 3000);
+    }, (error: any) => {
+      this.snackbar.open('Error al registrar', 'Cerrar', {
+          duration: 3000,
+          panelClass: "bg-danger-custom",
+          horizontalPosition: 'right',
+          verticalPosition: 'top'
+      });
+    });
+
+    this.loadingSendData = false;
   }
 
   resetForm() {
